@@ -1,11 +1,5 @@
 *** Changelog ***
 
-= 11.1.6 - 2021.03.01 =
-
-* Fix      - Chrome SameSite cookies
-* Removed  - Dynamic subscription management
-
-
 = 11.1.5 - 2019.05.15
 
 * New      -  Force 3D secure process has been implemented as per predefined filters and settings in the Novalnet Merchant Administration portal
