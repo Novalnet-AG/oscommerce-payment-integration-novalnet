@@ -17,6 +17,7 @@ Novalnet merchant account is required for using this Novalnet payment gateway fo
   - Due date change option for Prepayment & Invoice payment
   - Free text configuration for the bookings (for use on bank and credit card statements)
   - Responsive templates<br>
+  
 For detailed documentation and other technical inquiries, please send us an email at <a href="mailto:technic@novalnet.de"> technic@novalnet.de </a>
 
 ## Integrated payment methods for OsCommerce payment module
@@ -39,10 +40,11 @@ Easy installation of Novalnet payment module for OsCommerce is done through the 
 1. Get the payment module & detailed documentation by <a href="https://www.novalnet.de/kontakt/sales"> contacting us </a>
 2. Install module to your OsCommerce shop 
 3. Configure merchant details in the shop admin panel 
-4. Activate & configure the preferred payment types in your shop admin panel
+4. Install & enable the preferred payment types in your shop admin panel
 
 ## License  
 See our License Agreement at: https://www.novalnet.com/payments/free/license
+
 ## Documentation & Support
 For more information about the Novalnet payment module for OsCommerce and pricing, please get in touch with us:  <a href="mailto:sales@novalnet.de"> sales@novalnet.de </a> or +49 89 9230683-20<br>
 
@@ -52,6 +54,7 @@ Feringastr. 4<br>
 85774 Unterföhring<br>
 Deutschland<br>
 Web: www.novalnet.de 
+
 ## Who is Novalnet AG?
 <p>Novalnet AG is a <a href="https://www.novalnet.de/zahlungsinstitut"> leading financial service institution </a> offering payment gateways for processing online payments. Operating in the market as a full payment service provider Novalnet AG provides online merchants user-friendly payment integration with all major shop systems and self-programmed sites.</p> 
 <p>Accept, manage and monitor payments all on one platform with one single contract!</p>
