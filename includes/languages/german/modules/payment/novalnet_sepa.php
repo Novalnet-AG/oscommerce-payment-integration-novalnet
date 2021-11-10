@@ -1,0 +1,107 @@
+<?php
+/**
+ * Novalnet payment method module
+ * This module is used for real time processing of
+ * Novalnet transaction of customers.
+ *
+ * Author : Novalnet AG
+ * Copyright (c) Novalnet
+ *
+ * Released under the GNU General Public License
+ * This free contribution made by request.
+ * If you have found this script useful a small
+ * recommendation as well as a comment on merchant form
+ * would be greatly appreciated.
+ *
+ * Script : novalnet_sepa.php
+ *
+ */
+require_once (dirname(__FILE__).'/novalnet.php');
+define('MODULE_PAYMENT_NOVALNET_SEPA_TEXT_TITLE','Lastschrift SEPA ');
+define('MODULE_PAYMENT_NOVALNET_SEPA_TEXT_DESCRIPTION','<br />Ihr Konto wird nach Abschicken der Bestellung belastet.');
+
+define('MODULE_PAYMENT_NOVALNET_SEPA_PUBLIC_TITLE', ((defined('MODULE_PAYMENT_NOVALNET_PAYMENT_LOGO_DISPLAY') || MODULE_PAYMENT_NOVALNET_PAYMENT_LOGO_DISPLAY == 'True') ? '<a href="https://www.novalnet.de/sepa-lastschrift" title="Lastschrift SEPA" target="_blank"/>'.tep_image(DIR_WS_ICONS.'novalnet/novalnet_sepa.png',"Lastschrift SEPA" ).'</a>':''));
+
+define('MODULE_PAYMENT_NOVALNET_SEPA_STATUS_TITLE',MODULE_PAYMENT_STATUS_TITLE);
+define('MODULE_PAYMENT_NOVALNET_SEPA_STATUS_DESC',MODULE_PAYMENT_STATUS_DESC);
+
+define('MODULE_PAYMENT_NOVALNET_SEPA_TEST_MODE_TITLE',MODULE_PAYMENT_NOVALNET_TEST_MODE_TITLE);
+define('MODULE_PAYMENT_NOVALNET_SEPA_TEST_MODE_DESC',MODULE_PAYMENT_NOVALNET_TEST_MODE_DESC);
+
+define('MODULE_PAYMENT_NOVALNET_SEPA_ENABLE_FRAUDMODULE_TITLE',MODULE_PAYMENT_NOVALNET_FRAUDMODULE_TITLE);
+define('MODULE_PAYMENT_NOVALNET_SEPA_ENABLE_FRAUDMODULE_DESC',MODULE_PAYMENT_NOVALNET_FRAUDMODULE_DESC);
+
+define('MODULE_PAYMENT_NOVALNET_SEPA_CALLBACK_LIMIT_TITLE',MODULE_PAYMENT_NOVALNET_CALLBACK_LIMIT_TITLE);
+define('MODULE_PAYMENT_NOVALNET_SEPA_CALLBACK_LIMIT_DESC',MODULE_PAYMENT_NOVALNET_CALLBACK_LIMIT_DESC);
+
+define('MODULE_PAYMENT_NOVALNET_SEPA_AUTO_FILL_TITLE','Automatisches Eintragen aktivieren');
+define('MODULE_PAYMENT_NOVALNET_SEPA_AUTO_FILL_DESC','Die Zahlungsdetails werden automatisch w&auml;hrend des Checkout-Vorgangs in das Zahlungsformular eingetragen');
+
+define('MODULE_PAYMENT_NOVALNET_REFILL_BY_SUCCESSFUL_ORDER_TITLE','Automatisches Eintragen der Zahlungsdaten aktivieren');
+define('MODULE_PAYMENT_NOVALNET_REFILL_BY_SUCCESSFUL_ORDER_DESC','F&uuml;r registrierte Benutzer werden die SEPA-Lastschriftdetails automatisch in das Zahlungsformular eingetragen');
+
+define('MODULE_PAYMENT_NOVALNET_SEPA_VISIBILITY_AMOUNT_TITLE',MODULE_PAYMENT_NOVALNET_VISIBILITY_BYAMOUNT_TITLE);
+define('MODULE_PAYMENT_NOVALNET_SEPA_VISIBILITY_AMOUNT_DESC',MODULE_PAYMENT_NOVALNET_VISIBILITY_BYAMOUNT_DESC);
+
+define('MODULE_PAYMENT_NOVALNET_SEPA_CUSTOMER_INFO_TITLE',MODULE_PAYMENT_NOVALNET_CUSTOMER_INFO_TITLE);
+define('MODULE_PAYMENT_NOVALNET_SEPA_CUSTOMER_INFO_DESC',MODULE_PAYMENT_NOVALNET_CUSTOMER_INFO_DESC);
+
+define('MODULE_PAYMENT_NOVALNET_SEPA_SORT_ORDER_TITLE',MODULE_PAYMENT_NOVALNET_SORT_ORDER_TITLE);
+define('MODULE_PAYMENT_NOVALNET_SEPA_SORT_ORDER_DESC',MODULE_PAYMENT_NOVALNET_SORT_ORDER_DESC);
+
+define('MODULE_PAYMENT_NOVALNET_SEPA_ORDER_STATUS_TITLE',MODULE_PAYMENT_NOVALNET_ORDER_STATUS_TITLE);
+define('MODULE_PAYMENT_NOVALNET_SEPA_ORDER_STATUS_DESC',MODULE_PAYMENT_NOVALNET_ORDER_STATUS_DESC);
+
+define('MODULE_PAYMENT_NOVALNET_SEPA_PAYMENT_ZONE_TITLE',MODULE_PAYMENT_NOVALNET_PAYMENT_ZONE_TITLE);
+define('MODULE_PAYMENT_NOVALNET_SEPA_PAYMENT_ZONE_DESC',MODULE_PAYMENT_NOVALNET_PAYMENT_ZONE_DESC);
+
+define('MODULE_PAYMENT_NOVALNET_SEPA_SHOP_TYPE_TITLE',MODULE_PAYMENT_NOVALNET_SHOP_TYPE_TITLE);
+define('MODULE_PAYMENT_NOVALNET_SEPA_SHOP_TYPE_DESC',MODULE_PAYMENT_NOVALNET_SHOP_TYPE_DESC);
+define('MODULE_PAYMENT_NOVALNET_OPTION_NONE',MODULE_PAYMENT_OPTION_NONE);
+define('MODULE_PAYMENT_NOVALNET_SEPA_ONE_CLICK',MODULE_PAYMENT_NOVALNET_ONE_CLICK);
+define('MODULE_PAYMENT_NOVALNET_SEPA_ZERO_AMOUNT',MODULE_PAYMENT_NOVALNET_ZERO_AMOUNT);
+
+define('MODULE_PAYMENT_NOVALNET_SEPA_VISIBILITY_BY_AMOUNT_TITLE',MODULE_PAYMENT_NOVALNET_VISIBILITY_BYAMOUNT_TITLE);
+define('MODULE_PAYMENT_NOVALNET_SEPA_VISIBILITY_BY_AMOUNT_DESC',MODULE_PAYMENT_NOVALNET_VISIBILITY_BYAMOUNT_DESC);
+
+define('MODULE_PAYMENT_NOVALNET_ACCOUNT_OR_IBAN','IBAN oder Kontonummer');
+
+define('MODULE_PAYMENT_NOVALNET_SEPA_FORM_MANDATE_CONFIRM_TEXT','Ich erteile hiermit das SEPA-Lastschriftmandat (elektronische Übermittlung) und bestätige, dass die Bankverbindung korrekt ist.');
+
+define('MODULE_PAYMENT_NOVALNET_SEPA_PAYMENT_DUE_DATE_TITLE','Abstand (in Tagen) bis zum SEPA-Einzugsdatum');
+define('MODULE_PAYMENT_NOVALNET_SEPA_PAYMENT_DUE_DATE_DESC','Geben Sie die Anzahl der Tage ein, nach denen die Zahlung vorgenommen werden soll (muss zwischen 2 und 14 Tagen liegen).');
+
+define('MODULE_PAYMENT_NOVALNET_SEPA_NEW_ACCOUNT','Neue Kontodaten eingeben');
+define('MODULE_PAYMENT_NOVALNET_SEPA_GIVEN_ACCOUNT','Eingegebene Kontodaten');
+define('MODULE_PAYMENT_NOVALNET_SEPA_BLOCK_TITLE','<b>SEPA Konfiguration</b>');
+define('MODULE_PAYMENT_NOVALNET_SEPA_DUE_DATE_ERROR','SEPA F&auml;lligkeitsdatum Ung&uuml;ltiger');
+define('MODULE_PAYMENT_NOVALNET_SEPA_MANDATE_CONFIRM_ERROR','Akzeptieren Sie bitte das SEPA-Lastschriftmandat');
+define('MODULE_PAYMENT_NOVALNET_SEPA_SELECT_COUNTRY','Wählen Sie bitte ein Land aus');
+define('MODULE_PAYMENT_NOVALNET_SELECT_PAYMENT_METHOD','Wählen Sie bitte die Zahlungsart aus');
+define('PLEASE_SELECT_SEPA_COUNTRY','Bitte wählen Sie');
+
+define('MODULE_PAYMENT_NOVALNET_SEPA_GUARANTEE_PAYMENT_CONFIGURATION_TITLE', MODULE_PAYMENT_NOVALNET_GLOBAL_CONFIGURATION_DETAILS);
+define('MODULE_PAYMENT_NOVALNET_SEPA_GUARANTEE_PAYMENT_CONFIGURATION_DESC', MODULE_PAYMENT_NOVALNET_GLOBAL_CONFIGURATION_DETAILS_DESCRIPTION);
+define('MODULE_PAYMENT_NOVALNET_SEPA_ENABLE_GUARANTEE_PAYMENT', MODULE_PAYMENT_NOVALNET_ENABLE_GUARANTEE_PAYMENT);
+define('MODULE_PAYMENT_NOVALNET_SEPA_GUARANTEE_PAYMENT_MINIMUM_AMOUNT_TITLE', MODULE_PAYMENT_NOVALNET_GUARANTEE_PAYMENT_MINIMUM_ORDER_AMOUNT);
+define('MODULE_PAYMENT_NOVALNET_SEPA_GUARANTEE_PAYMENT_MINIMUM_AMOUNT_DESC', MODULE_PAYMENT_NOVALNET_GUARANTEE_PAYMENT_MINIMUM_ORDER_AMOUNT_DESC);
+define('MODULE_PAYMENT_NOVALNET_SEPA_ENABLE_FORCE_GUARANTEE_PAYMENT_TITLE', MODULE_PAYMENT_NOVALNET_ENABLE_FORCE_GUARANTEE_PAYMENT);
+define('MODULE_PAYMENT_NOVALNET_SEPA_ENABLE_FORCE_GUARANTEE_PAYMENT_DESC', MODULE_PAYMENT_NOVALNET_ENABLE_FORCE_GUARANTEE_PAYMENT_DESC);
+define('MODULE_PAYMENT_NOVALNET_SEPA_PENDING_ORDER_STATUS_TITLE','Bestellstatus für die ausstehende Zahlung mit Zahlungsgarantie');
+define('MODULE_PAYMENT_NOVALNET_SEPA_PENDING_ORDER_STATUS_DESC','Diese Einstellung überschreibt die Standardeinstellung für den Mindest-Bestellbetrag.Anmerkung: der Mindest-Bestellbetrag sollte größer oder gleich 9,99 EUR sein.');
+define('MODULE_PAYMENT_NOVALNET_SEPA_GURANTEE_PAYMENT_MIN_AMOUNT_ERROR_MSG', MODULE_PAYMENT_NOVALNET_GURANTEE_PAYMENT_MIN_AMOUNT_ERROR_MSG);
+define('MODULE_PAYMENT_NOVALNET_SEPA_GURANTEE_PAYMENT_NOT_MATCH_ERROR_MSG', MODULE_PAYMENT_NOVALNET_GURANTEE_PAYMENT_NOT_MATCH_ERROR_MSG);
+define('MODULE_PAYMENT_NOVALNET_SEPA_AUTHENTICATE_TITLE','Durchführung einer ausgesetzten Zahlung
+');
+
+define('MODULE_PAYMENT_NOVALNET_SEPA_AUTHENTICATE_DESC','Die Zahlung wird in der Warteschleife verarbeitet, wenn die Autorisierung angeklickt wird, und das Limit für die Warteschleife wird in der Textbox festgelegt
+
+');
+
+define('MODULE_PAYMENT_NOVALNET_MANUAL_CHECK_SEPA_LIMIT_TITLE', 'Mindesttransaktionsbetrag für die Autorisierung (in der kleinsten Währungseinheit, z.B. 100 Cent = entsprechen 1.00 EUR)');
+define('MODULE_PAYMENT_NOVALNET_MANUAL_CHECK_SEPA_LIMIT_DESC', 'Übersteigt der Bestellbetrag das genannte Limit, wird die Transaktion, bis zu ihrer Bestätigung durch Sie, auf on hold gesetzt. Sie können das Feld leer lassen, wenn Sie möchten, dass alle Transaktionen als on hold behandelt werden.');
+define('MODULE_PAYMENT_NOVALNET_SEPA_FORM_AUTHORISE_TEXT', 'Ich ermächtige den Zahlungsempfänger, Zahlungen von meinem Konto mittels Lastschrift einzuziehen. Zugleich weise ich mein Kreditinstitut an, die von dem Zahlungsempfänger auf mein Konto gezogenen Lastschriften einzulösen. <br><br>
+
+Gläubiger-Identifikationsnummer: DE53ZZZ00000004253 <br><br>
+
+Hinweis: Ich kann innerhalb von acht Wochen, beginnend mit dem Belastungsdatum, die Erstattung des belasteten Betrages verlangen. Es gelten dabei die mit meinem Kreditinstitut vereinbarten Bedingungen. ');
